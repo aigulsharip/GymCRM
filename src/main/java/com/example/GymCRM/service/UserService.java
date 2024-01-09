@@ -1,6 +1,8 @@
 package com.example.GymCRM.service;
 
+import com.example.GymCRM.dto.UserDTO;
 import com.example.GymCRM.entity.User;
+import com.example.GymCRM.mapper.UserMapper;
 import com.example.GymCRM.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,49 +10,60 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    private UserMapper userMapper;
+
+    public List<UserDTO> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return userMapper.toDtoList(users);
     }
 
-    // Create operation
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public Optional<UserDTO> getUserById(Long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        return userOptional.map(userMapper::toDto);
     }
 
-    // Read operations
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public UserDTO saveUser(UserDTO userDTO) {
+        User user = userMapper.toEntity(userDTO);
+        User savedUser = userRepository.save(user);
+        return userMapper.toDto(savedUser);
     }
 
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public UserDTO updateUser(Long id, UserDTO userDTO) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            User userToUpdate = userMapper.toEntity(userDTO);
+            userToUpdate.setId(id);
+            User updatedUser = userRepository.save(userToUpdate);
+            return userMapper.toDto(updatedUser);
+        }
+        return null; // Handle this case in your controller layer as per your requirement
     }
 
-    // Update operation
-    public User updateUser(Long id, User userDetails) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
-
-        user.setFirstName(userDetails.getFirstName());
-        user.setLastName(userDetails.getLastName());
-        user.setUsername(userDetails.getUsername());
-        user.setPassword(userDetails.getPassword());
-        user.setIsActive(userDetails.getIsActive());
-
-        return userRepository.save(user);
-    }
-
-    // Delete operation
     public void deleteUser(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
-
-        userRepository.delete(user);
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+        }
+        // No need to throw an exception if the user does not exist
     }
 }

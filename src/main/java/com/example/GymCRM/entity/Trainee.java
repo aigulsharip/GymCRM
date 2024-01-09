@@ -28,5 +28,6 @@ public class Trainee {
 //    private Long userId;
 
 
+
 }
 

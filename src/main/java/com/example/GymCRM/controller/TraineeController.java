@@ -1,5 +1,6 @@
 package com.example.GymCRM.controller;
 
+import com.example.GymCRM.dto.TraineeDTO;
 import com.example.GymCRM.entity.Trainee;
 import com.example.GymCRM.service.TraineeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,36 +14,36 @@ import java.util.List;
 @RequestMapping("/api/trainees")
 public class TraineeController {
 
-    private final TraineeService traineeService;
-
     @Autowired
-    public TraineeController(TraineeService traineeService) {
-        this.traineeService = traineeService;
-    }
+    private TraineeService traineeService;
 
     @GetMapping
-    public ResponseEntity<List<Trainee>> getAllTrainees() {
-        return ResponseEntity.ok(traineeService.getAllTrainees());
+    public ResponseEntity<List<TraineeDTO>> getAllTrainees() {
+        List<TraineeDTO> trainees = traineeService.getAllTrainees();
+        return new ResponseEntity<>(trainees, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Trainee> getTraineeById(@PathVariable Long id) {
-        return ResponseEntity.ok(traineeService.getTraineeById(id));
+    public ResponseEntity<TraineeDTO> getTraineeById(@PathVariable Long id) {
+        TraineeDTO trainee = traineeService.getTraineeById(id);
+        return new ResponseEntity<>(trainee, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Trainee> createTrainee(@RequestBody Trainee trainee) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(traineeService.createTrainee(trainee));
+    public ResponseEntity<TraineeDTO> createTrainee(@RequestBody TraineeDTO traineeDTO) {
+        TraineeDTO savedTrainee = traineeService.createTrainee( traineeDTO);
+        return new ResponseEntity<>(savedTrainee, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Trainee> updateTrainee(@PathVariable Long id, @RequestBody Trainee trainee) {
-        return ResponseEntity.ok(traineeService.updateTrainee(id, trainee));
+    public ResponseEntity<TraineeDTO> updateTrainee(@PathVariable Long id, @RequestBody TraineeDTO traineeDTO) {
+        TraineeDTO updatedTrainee = traineeService.updateTrainee(id, traineeDTO);
+        return new ResponseEntity<>(updatedTrainee, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTrainee(@PathVariable Long id) {
         traineeService.deleteTrainee(id);
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

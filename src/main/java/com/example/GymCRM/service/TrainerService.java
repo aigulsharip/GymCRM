@@ -1,7 +1,9 @@
 package com.example.GymCRM.service;
 
+import com.example.GymCRM.dto.UserDTO;
 import com.example.GymCRM.entity.Trainer;
 import com.example.GymCRM.entity.User;
+import com.example.GymCRM.mapper.UserMapper;
 import com.example.GymCRM.repository.TrainerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,11 +21,21 @@ public class TrainerService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserMapper userMapper;
+
+
     public Trainer createTrainer(Trainer trainer) {
-        User user = userService.getUserById(trainer.getUser().getId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
-        trainer.setUser(user);
-        return trainerRepository.save(trainer);
+        Optional<UserDTO> userOptional = userService.getUserById(trainer.getUser().getId());
+        if (userOptional.isPresent()) {
+            User user = userMapper.toEntity(userOptional.get());
+            trainer.setUser(user);
+            return trainerRepository.save(trainer);
+        } else {
+            throw new IllegalArgumentException("User not found");
+        }
     }
+
 
     public Optional<Trainer> getTrainerById(Long id) {
         return trainerRepository.findById(id);
