@@ -24,8 +24,6 @@ public class Trainee {
     @JoinColumn(name = "user_id")
     private User user;
 
-//    @Column(name = "user_id")  // New field to store userId
-//    private Long userId;
 
 
 

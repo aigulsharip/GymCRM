@@ -1,4 +1,6 @@
 package com.example.GymCRM.controller;
+import com.example.GymCRM.dto.TraineeDTO;
+import com.example.GymCRM.dto.TrainerDTO;
 import com.example.GymCRM.entity.Trainer;
 import com.example.GymCRM.service.TrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,28 +19,28 @@ public class TrainerController {
     private TrainerService trainerService;
 
     @PostMapping
-    public ResponseEntity<Trainer> createTrainer(@RequestBody Trainer trainer) {
-        Trainer newTrainer = trainerService.createTrainer(trainer);
+    public ResponseEntity<TrainerDTO> createTrainer(@RequestBody TrainerDTO trainerDTO) {
+        TrainerDTO newTrainer = trainerService.createTrainer(trainerDTO);
         return new ResponseEntity<>(newTrainer, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Trainer> getTrainerById(@PathVariable Long id) {
-        Optional<Trainer> trainer = trainerService.getTrainerById(id);
-        return trainer.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
     @GetMapping
-    public ResponseEntity<List<Trainer>> getAllTrainers() {
-        return ResponseEntity.ok(trainerService.getAllTrainers());
+    public ResponseEntity<List<TrainerDTO>> getAllTrainers() {
+        List<TrainerDTO> trainers = trainerService.getAllTrainers();
+        return new ResponseEntity<>(trainers, HttpStatus.OK);
     }
 
-
+    @GetMapping("/{id}")
+    public ResponseEntity<TrainerDTO> getTrainerById(@PathVariable Long id) {
+        TrainerDTO trainer = trainerService.getTrainerById(id);
+        return new ResponseEntity<>(trainer, HttpStatus.OK);
+    }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Trainer> updateTrainer(@PathVariable Long id, @RequestBody Trainer trainer) {
-        return ResponseEntity.ok(trainerService.updateTrainer(id, trainer));
+    public ResponseEntity<TrainerDTO> updateTrainer(@PathVariable Long id, @RequestBody TrainerDTO trainerDTO) {
+        TrainerDTO updatedTrainer = trainerService.updateTrainer(id, trainerDTO);
+
+        return new ResponseEntity<>(updatedTrainer, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

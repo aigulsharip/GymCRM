@@ -20,4 +20,5 @@ public interface TraineeMapper {
 
     @Mapping(source = "user", target = "user")
     List<TraineeDTO> toDtoList (List<Trainee> tasks);
+
 }
