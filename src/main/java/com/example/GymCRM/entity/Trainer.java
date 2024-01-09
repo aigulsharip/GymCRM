@@ -15,8 +15,8 @@ public class Trainer {
     @Column(name = "specialization")
     private String specialization;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     // Getters, setters, constructors

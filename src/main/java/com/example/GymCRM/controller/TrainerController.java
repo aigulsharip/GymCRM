@@ -7,16 +7,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/trainers")
 public class TrainerController {
 
-    private final TrainerService trainerService;
-
     @Autowired
-    public TrainerController(TrainerService trainerService) {
-        this.trainerService = trainerService;
+    private TrainerService trainerService;
+
+    @PostMapping
+    public ResponseEntity<Trainer> createTrainer(@RequestBody Trainer trainer) {
+        Trainer newTrainer = trainerService.createTrainer(trainer);
+        return new ResponseEntity<>(newTrainer, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Trainer> getTrainerById(@PathVariable Long id) {
+        Optional<Trainer> trainer = trainerService.getTrainerById(id);
+        return trainer.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping
@@ -24,15 +34,7 @@ public class TrainerController {
         return ResponseEntity.ok(trainerService.getAllTrainers());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Trainer> getTrainerById(@PathVariable Long id) {
-        return ResponseEntity.ok(trainerService.getTrainerById(id));
-    }
 
-    @PostMapping
-    public ResponseEntity<Trainer> createTrainer(@RequestBody Trainer trainer) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(trainerService.createTrainer(trainer));
-    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Trainer> updateTrainer(@PathVariable Long id, @RequestBody Trainer trainer) {

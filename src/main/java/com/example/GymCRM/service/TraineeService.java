@@ -14,6 +14,8 @@ public class TraineeService {
 
     private final TraineeRepository traineeRepository;
     private final UserRepository userRepository;
+    @Autowired
+    private UserService userService;
 
     @Autowired
     public TraineeService(TraineeRepository traineeRepository, UserRepository userRepository) {
@@ -22,12 +24,11 @@ public class TraineeService {
     }
 
     public Trainee createTrainee(Trainee trainee) {
-        User existingUser = userRepository.findById(trainee.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + trainee.getUserId()));
-
-        trainee.setUserId(existingUser.getId());
+        User user = userService.getUserById(trainee.getUser().getId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        trainee.setUser(user);
         return traineeRepository.save(trainee);
     }
+
     // Read operations
     public List<Trainee> getAllTrainees() {
         return traineeRepository.findAll();

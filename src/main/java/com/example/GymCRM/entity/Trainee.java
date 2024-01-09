@@ -20,12 +20,12 @@ public class Trainee {
     @Column(name = "address")
     private String address;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id")
-//    private User user;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(name = "user_id")  // New field to store userId
-    private Long userId;
+//    @Column(name = "user_id")  // New field to store userId
+//    private Long userId;
 
 
 }
