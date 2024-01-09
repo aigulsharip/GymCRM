@@ -1,5 +1,6 @@
 package com.example.GymCRM.controller;
 
+import com.example.GymCRM.dto.TrainingTypeDTO;
 import com.example.GymCRM.entity.TrainingType;
 import com.example.GymCRM.service.TrainingTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,36 +14,38 @@ import java.util.List;
 @RequestMapping("/api/training-types")
 public class TrainingTypeController {
 
-    private final TrainingTypeService trainingTypeService;
-
     @Autowired
-    public TrainingTypeController(TrainingTypeService trainingTypeService) {
-        this.trainingTypeService = trainingTypeService;
-    }
+    private TrainingTypeService trainingTypeService;
 
-    @GetMapping
-    public ResponseEntity<List<TrainingType>> getAllTrainingTypes() {
-        return ResponseEntity.ok(trainingTypeService.getAllTrainingTypes());
+    @PostMapping
+    public ResponseEntity<TrainingTypeDTO> save(@RequestBody TrainingTypeDTO trainingTypeDTO) {
+        return ResponseEntity.ok(trainingTypeService.save(trainingTypeDTO));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TrainingType> getTrainingTypeById(@PathVariable Long id) {
-        return ResponseEntity.ok(trainingTypeService.getTrainingTypeById(id));
+    public ResponseEntity<TrainingTypeDTO> findById(@PathVariable Long id) {
+        return ResponseEntity.of(trainingTypeService.findById(id));
     }
 
-    @PostMapping
-    public ResponseEntity<TrainingType> createTrainingType(@RequestBody TrainingType trainingType) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(trainingTypeService.createTrainingType(trainingType));
+    @GetMapping
+    public ResponseEntity<List<TrainingTypeDTO>> findAll() {
+        return ResponseEntity.ok(trainingTypeService.findAll());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TrainingType> updateTrainingType(@PathVariable Long id, @RequestBody TrainingType trainingType) {
-        return ResponseEntity.ok(trainingTypeService.updateTrainingType(id, trainingType));
+    public ResponseEntity<TrainingTypeDTO> updateTrainingType(@PathVariable Long id, @RequestBody TrainingTypeDTO updatedTrainingTypeDTO) {
+        TrainingTypeDTO updatedTypeDTO = trainingTypeService.updateTrainingType(id, updatedTrainingTypeDTO);
+
+        if (updatedTypeDTO == null) {
+            return ResponseEntity.notFound().build(); // Handle the null scenario
+        }
+
+        return ResponseEntity.ok(updatedTypeDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTrainingType(@PathVariable Long id) {
-        trainingTypeService.deleteTrainingType(id);
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        trainingTypeService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }
