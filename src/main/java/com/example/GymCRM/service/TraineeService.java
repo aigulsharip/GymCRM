@@ -41,6 +41,11 @@ public class TraineeService {
         return traineeOptional.map(traineeMapper::traineeToTraineeDTO).orElse(null);
     }
 
+    public Optional<TraineeDTO> getTraineeByIdOptional(Long id) {
+        Optional<Trainee> userOptional = traineeRepository.findById(id);
+        return userOptional.map(traineeMapper::traineeToTraineeDTO);
+    }
+
     public TraineeDTO createTrainee(TraineeDTO traineeDTO) {
         Long userId = traineeDTO.getUser().getId();
 

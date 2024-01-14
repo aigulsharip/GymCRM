@@ -11,7 +11,6 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = {UserMapper.class, TrainingTypeMapper.class})
 public interface TrainerMapper {
 
-    TrainerMapper INSTANCE = Mappers.getMapper(TrainerMapper.class);
 
     @Mapping(source = "trainingTypeDTO", target = "specialization")
     @Mapping(source = "user", target = "user")
@@ -22,7 +21,7 @@ public interface TrainerMapper {
     TrainerDTO toDTO(Trainer trainer);
 
     @Mapping(source = "user", target = "user")
-    @Mapping(source = "trainingTypeDTO", target = "specialization")
+    @Mapping(source = "trainingTypeDTO", target = "trainingTypeDTO")
     List<TrainerDTO> toDtoList(List<Trainer> trainees);
 
     // Additional mapping methods if needed

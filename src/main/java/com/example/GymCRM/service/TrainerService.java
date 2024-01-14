@@ -51,18 +51,12 @@ public class TrainerService {
         return trainerOptional.map(trainerMapper::toDTO).orElse(null);
     }
 
-//    public TrainerDTO createTrainer(TrainerDTO trainerDTO) {
-//        Long userId = trainerDTO.getUser().getId();
-//
-//        Optional<UserDTO> userOptional = userService.getUserById(userId);
-//        UserDTO userDTO = userOptional.orElseThrow(() -> new IllegalArgumentException("User not found"));
-//
-//        Trainer trainer = trainerMapper.toEntity(trainerDTO);
-//        trainer.setUser(userMapper.toEntity(userDTO)); // Assuming UserMapper is defined
-//
-//        Trainer savedTrainer = trainerRepository.save(trainer);
-//        return trainerMapper.toDto(savedTrainer);
-//    }
+    public Optional<TrainerDTO> getTrainerByIdOptional(Long id) {
+        Optional<Trainer> userOptional = trainerRepository.findById(id);
+        return userOptional.map(trainerMapper::toDTO);
+    }
+
+
 
     public TrainerDTO createTrainer(TrainerDTO trainerDTO) {
 

@@ -1,5 +1,7 @@
 package com.example.GymCRM.controller;
 
+import com.example.GymCRM.dto.TrainerDTO;
+import com.example.GymCRM.dto.TrainingDTO;
 import com.example.GymCRM.entity.Training;
 import com.example.GymCRM.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,30 +23,37 @@ public class TrainingController {
         this.trainingService = trainingService;
     }
 
+    @PostMapping
+    public ResponseEntity<TrainingDTO> createTraining(@RequestBody TrainingDTO trainingDTO) {
+        TrainingDTO newTraining = trainingService.createTraining(trainingDTO);
+        return new ResponseEntity<>(newTraining, HttpStatus.CREATED);
+    }
+
     @GetMapping
-    public ResponseEntity<List<Training>> getAllTrainings() {
-        return ResponseEntity.ok(trainingService.getAllTrainings());
+    public ResponseEntity<List<TrainingDTO>> getAllTraining() {
+        List<TrainingDTO> trainingDTOS = trainingService.getAllTraining();
+        return new ResponseEntity<>(trainingDTOS, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Training> getTrainingById(@PathVariable Long id) {
-        return ResponseEntity.ok(trainingService.getTrainingById(id));
-    }
-
-    @PostMapping
-    public ResponseEntity<Training> createTraining(@RequestBody Training training) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(trainingService.createTraining(training));
+    public ResponseEntity<TrainingDTO> getTrainingById(@PathVariable Long id) {
+        TrainingDTO training = trainingService.getTrainingById(id);
+        return new ResponseEntity<>(training, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Training> updateTraining(@PathVariable Long id, @RequestBody Training training) {
-        return ResponseEntity.ok(trainingService.updateTraining(id, training));
+    public ResponseEntity<TrainingDTO> updateTraining(@PathVariable Long id, @RequestBody TrainingDTO trainingDTO) {
+        TrainingDTO updatedTrainer = trainingService.updateTraining(id, trainingDTO);
+
+        return new ResponseEntity<>(updatedTrainer, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTraining(@PathVariable Long id) {
-        trainingService.deleteTraining(id);
+        trainingService.deleteTrainer(id);
         return ResponseEntity.noContent().build();
     }
+
+
 }
 
