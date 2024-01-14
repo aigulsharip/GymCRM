@@ -9,20 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.Random;
 
 @Service
 public class UserService {
@@ -44,6 +31,9 @@ public class UserService {
     }
 
     public UserDTO saveUser(UserDTO userDTO) {
+        userDTO.setUsername(calculateUsername(userDTO.getFirstName(), userDTO.getLastName()));
+        userDTO.setPassword(generatePassword());
+        userDTO.setIsActive(true);
         User user = userMapper.toEntity(userDTO);
         User savedUser = userRepository.save(user);
         return userMapper.toDto(savedUser);
@@ -65,5 +55,27 @@ public class UserService {
             userRepository.deleteById(id);
         }
         // No need to throw an exception if the user does not exist
+    }
+
+    private String calculateUsername(String firstName, String lastName) {
+        String baseUsername = firstName + "." + lastName;
+        String calculatedUsername = baseUsername;
+        int counter = 1;
+
+        while (userRepository.existsByUsername(calculatedUsername)) {
+            calculatedUsername = baseUsername + counter++;
+        }
+        return calculatedUsername;
+    }
+
+    private String generatePassword() {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 10; i++) {
+            int index = random.nextInt(characters.length());
+            sb.append(characters.charAt(index));
+        }
+        return sb.toString();
     }
 }
