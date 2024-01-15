@@ -22,26 +22,29 @@ import java.util.Optional;
 @Service
 public class TrainingServiceImpl implements TrainingService {
 
-    @Autowired
-    private TrainingRepository trainingRepository;
+    private final TrainingRepository trainingRepository;
 
-    @Autowired
-    private TrainingTypeRepository trainingTypeRepository;
+    private final TrainingTypeRepository trainingTypeRepository;
 
-    @Autowired
-    private TraineeService traineeService;
+    private final TraineeService traineeService;
 
-    @Autowired
-    private TrainerService trainerService;
+    private final TrainerService trainerService;
 
-    @Autowired
-    private TrainerMapper trainerMapper;
+    private final TrainerMapper trainerMapper;
 
-    @Autowired
-    private TraineeMapper traineeMapper;
+    private final TraineeMapper traineeMapper;
 
-    @Autowired
-    private TrainingMapper trainingMapper;
+    private final TrainingMapper trainingMapper;
+
+    public TrainingServiceImpl(TrainingRepository trainingRepository, TrainingTypeRepository trainingTypeRepository, TraineeService traineeService, TrainerService trainerService, TrainerMapper trainerMapper, TraineeMapper traineeMapper, TrainingMapper trainingMapper) {
+        this.trainingRepository = trainingRepository;
+        this.trainingTypeRepository = trainingTypeRepository;
+        this.traineeService = traineeService;
+        this.trainerService = trainerService;
+        this.trainerMapper = trainerMapper;
+        this.traineeMapper = traineeMapper;
+        this.trainingMapper = trainingMapper;
+    }
 
 
     public List<TrainingDTO> getAllTraining() {

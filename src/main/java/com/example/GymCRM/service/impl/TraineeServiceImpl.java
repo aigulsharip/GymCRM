@@ -17,17 +17,20 @@ import java.util.Optional;
 @Service
 public class TraineeServiceImpl implements TraineeService {
 
-    @Autowired
-    private TraineeRepository traineeRepository;
+    private final TraineeRepository traineeRepository;
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private TraineeMapper traineeMapper;
+    private final TraineeMapper traineeMapper;
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
+
+    public TraineeServiceImpl(TraineeRepository traineeRepository, UserService userService, TraineeMapper traineeMapper, UserMapper userMapper) {
+        this.traineeRepository = traineeRepository;
+        this.userService = userService;
+        this.traineeMapper = traineeMapper;
+        this.userMapper = userMapper;
+    }
 
 
     public List<TraineeDTO> getAllTrainees() {

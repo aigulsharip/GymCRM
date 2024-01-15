@@ -19,20 +19,23 @@ import java.util.Optional;
 @Service
 public class TrainerServiceImpl implements TrainerService {
 
-    @Autowired
-    private TrainerRepository trainerRepository;
+    private final TrainerRepository trainerRepository;
 
-    @Autowired
-    private TrainingTypeRepository trainingTypeRepository;
+    private final TrainingTypeRepository trainingTypeRepository;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private TrainerMapper trainerMapper;
+    private final TrainerMapper trainerMapper;
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
+
+    public TrainerServiceImpl(TrainerRepository trainerRepository, TrainingTypeRepository trainingTypeRepository, UserService userService, TrainerMapper trainerMapper, UserMapper userMapper) {
+        this.trainerRepository = trainerRepository;
+        this.trainingTypeRepository = trainingTypeRepository;
+        this.userService = userService;
+        this.trainerMapper = trainerMapper;
+        this.userMapper = userMapper;
+    }
 
     public List<TrainerDTO> getAllTrainers() {
         List<Trainer> trainers = trainerRepository.findAll();

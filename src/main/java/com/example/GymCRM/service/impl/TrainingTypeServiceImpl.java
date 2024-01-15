@@ -16,11 +16,14 @@ import java.util.stream.Collectors;
 @Service
 public class TrainingTypeServiceImpl implements TrainingTypeService {
 
-    @Autowired
-    private TrainingTypeRepository trainingTypeRepository;
+    private final TrainingTypeRepository trainingTypeRepository;
 
-    @Autowired
-    private TrainingTypeMapper trainingTypeMapper;
+    private final TrainingTypeMapper trainingTypeMapper;
+
+    public TrainingTypeServiceImpl(TrainingTypeRepository trainingTypeRepository, TrainingTypeMapper trainingTypeMapper) {
+        this.trainingTypeRepository = trainingTypeRepository;
+        this.trainingTypeMapper = trainingTypeMapper;
+    }
 
     public TrainingTypeDTO save(TrainingTypeDTO trainingTypeDTO) {
         TrainingType trainingType = trainingTypeMapper.toEntity(trainingTypeDTO);
