@@ -3,7 +3,6 @@ package com.example.GymCRM.dto;
 import com.example.GymCRM.entity.Trainee;
 import com.example.GymCRM.entity.Trainer;
 import com.example.GymCRM.entity.TrainingType;
-import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Date;

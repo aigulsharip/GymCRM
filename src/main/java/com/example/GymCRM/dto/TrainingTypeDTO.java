@@ -1,6 +1,5 @@
 package com.example.GymCRM.dto;
 
-import jakarta.persistence.Column;
 import lombok.Data;
 
 @Data

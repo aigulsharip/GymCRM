@@ -1,4 +1,5 @@
 package com.example.GymCRM.controller;
+
 import com.example.GymCRM.dto.TrainerDTO;
 import com.example.GymCRM.service.interfaces.TrainerService;
 import org.springframework.beans.factory.annotation.Autowired;

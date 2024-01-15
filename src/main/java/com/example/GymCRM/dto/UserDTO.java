@@ -2,7 +2,6 @@ package com.example.GymCRM.dto;
 
 import lombok.Data;
 
-// UserDTO.java
 @Data
 public class UserDTO {
     private Long id;
