@@ -1,22 +1,21 @@
-package com.example.GymCRM.service;
+package com.example.GymCRM.service.impl;
 
 import com.example.GymCRM.dto.TraineeDTO;
 import com.example.GymCRM.dto.UserDTO;
 import com.example.GymCRM.entity.Trainee;
-import com.example.GymCRM.entity.Trainer;
-import com.example.GymCRM.entity.User;
 import com.example.GymCRM.mapper.TraineeMapper;
 import com.example.GymCRM.mapper.UserMapper;
 import com.example.GymCRM.repository.TraineeRepository;
+import com.example.GymCRM.service.interfaces.TraineeService;
+import com.example.GymCRM.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
-public class TraineeService {
+public class TraineeServiceImpl implements TraineeService {
 
     @Autowired
     private TraineeRepository traineeRepository;

@@ -1,10 +1,8 @@
 package com.example.GymCRM.controller;
 
 import com.example.GymCRM.dto.TrainingTypeDTO;
-import com.example.GymCRM.entity.TrainingType;
-import com.example.GymCRM.service.TrainingTypeService;
+import com.example.GymCRM.service.interfaces.TrainingTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

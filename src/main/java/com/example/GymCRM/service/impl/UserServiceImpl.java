@@ -1,9 +1,10 @@
-package com.example.GymCRM.service;
+package com.example.GymCRM.service.impl;
 
 import com.example.GymCRM.dto.UserDTO;
 import com.example.GymCRM.entity.User;
 import com.example.GymCRM.mapper.UserMapper;
 import com.example.GymCRM.repository.UserRepository;
+import com.example.GymCRM.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.Optional;
 import java.util.Random;
 
 @Service
-public class UserService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;

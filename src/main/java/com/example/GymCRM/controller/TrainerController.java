@@ -1,15 +1,12 @@
 package com.example.GymCRM.controller;
-import com.example.GymCRM.dto.TraineeDTO;
 import com.example.GymCRM.dto.TrainerDTO;
-import com.example.GymCRM.entity.Trainer;
-import com.example.GymCRM.service.TrainerService;
+import com.example.GymCRM.service.interfaces.TrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/trainers")
