@@ -1,8 +1,6 @@
 package com.example.GymCRM.mapper;
 
-import com.example.GymCRM.dto.TrainerDTO;
 import com.example.GymCRM.dto.TrainingDTO;
-import com.example.GymCRM.entity.Trainer;
 import com.example.GymCRM.entity.Training;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

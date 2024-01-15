@@ -5,7 +5,6 @@ import com.example.GymCRM.entity.TrainingType;
 import com.example.GymCRM.mapper.TrainingTypeMapper;
 import com.example.GymCRM.repository.TrainingTypeRepository;
 import com.example.GymCRM.service.interfaces.TrainingTypeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,6 +50,7 @@ public class TrainingTypeServiceImpl implements TrainingTypeService {
         TrainingType updatedTrainingType = trainingTypeRepository.save(existingTrainingType);
         return trainingTypeMapper.toDto(updatedTrainingType);
     }
+
     public void deleteById(Long id) {
         trainingTypeRepository.deleteById(id);
     }

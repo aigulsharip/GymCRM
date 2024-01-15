@@ -8,7 +8,6 @@ import com.example.GymCRM.mapper.UserMapper;
 import com.example.GymCRM.repository.TraineeRepository;
 import com.example.GymCRM.service.interfaces.TraineeService;
 import com.example.GymCRM.service.interfaces.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -60,7 +59,6 @@ public class TraineeServiceImpl implements TraineeService {
         Trainee savedTrainee = traineeRepository.save(trainee);
         return traineeMapper.traineeToTraineeDTO(savedTrainee);
     }
-
 
 
     public TraineeDTO updateTrainee(Long id, TraineeDTO traineeDTO) {

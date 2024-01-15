@@ -5,7 +5,6 @@ import com.example.GymCRM.entity.User;
 import com.example.GymCRM.mapper.UserMapper;
 import com.example.GymCRM.repository.UserRepository;
 import com.example.GymCRM.service.interfaces.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

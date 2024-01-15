@@ -13,7 +13,6 @@ import com.example.GymCRM.repository.TrainingTypeRepository;
 import com.example.GymCRM.service.interfaces.TraineeService;
 import com.example.GymCRM.service.interfaces.TrainerService;
 import com.example.GymCRM.service.interfaces.TrainingService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
