@@ -1,7 +1,11 @@
 package com.example.GymCRM.controller;
 
 import com.example.GymCRM.dto.TraineeDTO;
+import com.example.GymCRM.entity.Trainee;
 import com.example.GymCRM.service.interfaces.TraineeService;
+import java.util.Optional;
+
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,5 +48,17 @@ public class TraineeController {
     public ResponseEntity<Void> deleteTrainee(@PathVariable Long id) {
         traineeService.deleteTrainee(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/username/{username}")
+    public ResponseEntity<Trainee> getTraineeByUsername(@PathVariable String username) {
+        Optional<Trainee> traineeOptional = traineeService.getTraineeByUsername(username);
+        return new ResponseEntity<>(traineeOptional.orElseThrow(() -> new EntityNotFoundException("Trainee not found for username: " + username)), HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{username}")
+    public ResponseEntity<TraineeDTO> getTraineeByUsernameHibernate(@PathVariable String username) {
+        TraineeDTO trainee = traineeService.findTraineeByUsername(username);
+        return new ResponseEntity<>(trainee, HttpStatus.OK);
     }
 }

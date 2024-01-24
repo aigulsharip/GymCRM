@@ -1,7 +1,9 @@
 package com.example.GymCRM.service.impl;
 
+import com.example.GymCRM.dto.TraineeDTO;
 import com.example.GymCRM.dto.TrainerDTO;
 import com.example.GymCRM.dto.UserDTO;
+import com.example.GymCRM.entity.Trainee;
 import com.example.GymCRM.entity.Trainer;
 import com.example.GymCRM.entity.TrainingType;
 import com.example.GymCRM.mapper.TrainerMapper;
@@ -10,7 +12,11 @@ import com.example.GymCRM.repository.TrainerRepository;
 import com.example.GymCRM.repository.TrainingTypeRepository;
 import com.example.GymCRM.service.interfaces.TrainerService;
 import com.example.GymCRM.service.interfaces.UserService;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,12 +34,16 @@ public class TrainerServiceImpl implements TrainerService {
 
     private final UserMapper userMapper;
 
-    public TrainerServiceImpl(TrainerRepository trainerRepository, TrainingTypeRepository trainingTypeRepository, UserService userService, TrainerMapper trainerMapper, UserMapper userMapper) {
+    private final SessionFactory sessionFactory;
+
+
+    public TrainerServiceImpl(TrainerRepository trainerRepository, TrainingTypeRepository trainingTypeRepository, UserService userService, TrainerMapper trainerMapper, UserMapper userMapper, SessionFactory sessionFactory) {
         this.trainerRepository = trainerRepository;
         this.trainingTypeRepository = trainingTypeRepository;
         this.userService = userService;
         this.trainerMapper = trainerMapper;
         this.userMapper = userMapper;
+        this.sessionFactory = sessionFactory;
     }
 
     public List<TrainerDTO> getAllTrainers() {
@@ -91,5 +101,16 @@ public class TrainerServiceImpl implements TrainerService {
             trainerRepository.deleteById(id);
         }
         // No need to throw an exception if the trainer does not exist
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public TrainerDTO findTrainerByUsername(String username) {
+        try (Session session = sessionFactory.openSession()) {
+            String hql = "SELECT t FROM Trainer t WHERE t.user.username = :username";
+            Query<Trainer> query = session.createQuery(hql, Trainer.class);
+            query.setParameter("username", username);
+            return trainerMapper.toDTO(query.getResultList().get(0));
+        }
     }
 }

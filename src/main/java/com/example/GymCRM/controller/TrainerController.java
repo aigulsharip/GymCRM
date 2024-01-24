@@ -1,5 +1,6 @@
 package com.example.GymCRM.controller;
 
+import com.example.GymCRM.dto.TraineeDTO;
 import com.example.GymCRM.dto.TrainerDTO;
 import com.example.GymCRM.service.interfaces.TrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,12 @@ public class TrainerController {
     public ResponseEntity<Void> deleteTrainer(@PathVariable Long id) {
         trainerService.deleteTrainer(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/user/{username}")
+    public ResponseEntity<TrainerDTO> getTrainerByUsername(@PathVariable String username) {
+        TrainerDTO trainer = trainerService.findTrainerByUsername(username);
+        return new ResponseEntity<>(trainer, HttpStatus.OK);
     }
 }
 

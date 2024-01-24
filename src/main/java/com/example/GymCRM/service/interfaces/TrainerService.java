@@ -1,5 +1,6 @@
 package com.example.GymCRM.service.interfaces;
 
+import com.example.GymCRM.dto.TraineeDTO;
 import com.example.GymCRM.dto.TrainerDTO;
 
 import java.util.List;
@@ -18,4 +19,7 @@ public interface TrainerService {
     TrainerDTO updateTrainer(Long id, TrainerDTO trainerDTO);
 
     void deleteTrainer(Long id);
+
+    TrainerDTO findTrainerByUsername(String username);
+
 }

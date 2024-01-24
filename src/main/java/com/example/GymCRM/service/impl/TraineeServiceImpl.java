@@ -3,12 +3,17 @@ package com.example.GymCRM.service.impl;
 import com.example.GymCRM.dto.TraineeDTO;
 import com.example.GymCRM.dto.UserDTO;
 import com.example.GymCRM.entity.Trainee;
+import com.example.GymCRM.entity.User;
 import com.example.GymCRM.mapper.TraineeMapper;
 import com.example.GymCRM.mapper.UserMapper;
 import com.example.GymCRM.repository.TraineeRepository;
 import com.example.GymCRM.service.interfaces.TraineeService;
 import com.example.GymCRM.service.interfaces.UserService;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,11 +29,15 @@ public class TraineeServiceImpl implements TraineeService {
 
     private final UserMapper userMapper;
 
-    public TraineeServiceImpl(TraineeRepository traineeRepository, UserService userService, TraineeMapper traineeMapper, UserMapper userMapper) {
+    private final SessionFactory sessionFactory;
+
+
+    public TraineeServiceImpl(TraineeRepository traineeRepository, UserService userService, TraineeMapper traineeMapper, UserMapper userMapper, SessionFactory sessionFactory) {
         this.traineeRepository = traineeRepository;
         this.userService = userService;
         this.traineeMapper = traineeMapper;
         this.userMapper = userMapper;
+        this.sessionFactory = sessionFactory;
     }
 
 
@@ -78,4 +87,20 @@ public class TraineeServiceImpl implements TraineeService {
         }
         // No need to throw an exception if the trainee does not exist
     }
+    @Transactional()
+    @Override
+    public TraineeDTO findTraineeByUsername(String username) {
+        try (Session session = sessionFactory.openSession()) {
+            String hql = "SELECT t FROM Trainee t WHERE t.user.username = :username";
+            Query<Trainee> query = session.createQuery(hql, Trainee.class);
+            query.setParameter("username", username);
+            return traineeMapper.traineeToTraineeDTO(query.getResultList().get(0));
+        }
+    }
+
+    public Optional<Trainee> getTraineeByUsername(String username) {
+        return traineeRepository.findByUsername(username);
+    }
+
+
 }
